@@ -49,7 +49,6 @@ export default function LoginUI({ onLoginSuccess }) {
             {isDark ? <Moon className="icon" /> : <Sun className="icon" />}
             <span>{isDark ? 'Dark Mode' : 'Light Mode'}</span>
           </div>
-          <div className="theme-right">{isDark ? 'Dark Mode' : 'Light Mode'}</div>
         </button>
 
         <div className="login-card-wrapper">
