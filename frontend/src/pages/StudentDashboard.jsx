@@ -6,7 +6,7 @@ import DropZone from '../components/ui/DropZone';
 import ResultList from '../components/ResultList';
 import Card from '../components/ui/Card';
 
-export default function Dashboard() {
+export default function StudentDashboard() {
   const labOptions = ["Lab 01: Abstraction", "Lab 02: Polymophism", "Lab 03: Inheritance", "Lab 04: Interface"];
   const problemOptions = ["Problem 01", "Problem 02", "Problem 03"];
 
@@ -100,7 +100,9 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-6">
+          <Select label="Select Lab" options={labOptions} />
+        </div>
         <Footer />
       </div>
     </div>
