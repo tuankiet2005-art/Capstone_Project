@@ -100,9 +100,6 @@ export default function StudentDashboard() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-6">
-          <Select label="Select Lab" options={labOptions} />
-        </div>
         <Footer />
       </div>
     </div>
