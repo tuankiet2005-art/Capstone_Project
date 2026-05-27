@@ -6,7 +6,7 @@ import DropZone from '../components/ui/DropZone';
 import ResultList from '../components/ResultList';
 import Card from '../components/ui/Card';
 
-export default function Dashboard() {
+export default function StudentDashboard() {
   const labOptions = ["Lab 01: Abstraction", "Lab 02: Polymophism", "Lab 03: Inheritance", "Lab 04: Interface"];
   const problemOptions = ["Problem 01", "Problem 02", "Problem 03"];
 
@@ -100,7 +100,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     </div>
