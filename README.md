@@ -1,131 +1,178 @@
 # EIU Capstone Project
 
-A full-stack web application featuring a modern React/Vite frontend and a secure Java Spring Boot backend, integrated with Google OAuth2 authentication restricted to official university domains.
+This repository contains a full-stack web application for the EIU Capstone project. It combines a React + Vite frontend with a Java Spring Boot backend, Google authentication, JWT-based authorization, and a PostgreSQL database with Liquibase migrations.
 
----
+## 1. What this project does
 
-## 🛠️ Tech Stack & Key Technologies
+The application includes:
+- A React-based web UI for login, dashboards, and course-related screens
+- A Spring Boot backend for authentication and REST APIs
+- Google OAuth sign-in flow with domain validation for `@eiu.edu.vn`
+- JWT-based session handling for authenticated requests
+- Swagger/OpenAPI documentation for backend APIs
+
+## 2. Technology stack
 
 ### Frontend
-* **Core:** React, Vite
-* **Styling:** TailwindCSS, PostCSS, Autoprefixer
-* **Package Manager:** npm
+- React 18
+- Vite 7
+- React Router DOM
+- Tailwind CSS
+- PostCSS / Autoprefixer
+- npm
 
 ### Backend
-* **Core:** Java 17, Spring Boot 3.2.2
-* **Build Tool:** Maven
-* **Security:** Google OAuth 2.0 (Token Verification), JSON Web Tokens (JWT)
+- Java 17
+- Spring Boot 3.2.2
+- Spring Web
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- Liquibase
+- JWT (jjwt)
+- Springdoc OpenAPI / Swagger UI
 
----
+### Project orchestration
+- Root-level npm scripts using `concurrently`
 
-## 📋 Prerequisites
+## 3. Prerequisites
 
-Before running the application, ensure you have the following installed on your machine:
-* **Node.js** (v18 or higher recommended)
-* **Java Development Kit (JDK) 17**
-* **Apache Maven**
-* A valid **Google OAuth Client ID**
+Make sure these are installed before starting the project:
+- Node.js 18+ and npm
+- Java JDK 17
+- Apache Maven
+- PostgreSQL running locally
+- A Google OAuth client ID for the authentication flow
 
----
-
-## ⚙️ Initial Setup & Configuration
-
-### 1. Root Configuration
-From the project root directory, install the required orchestration dependencies (e.g., `concurrently`) to enable single-command execution:
-```bash
-npm install
-
-```
-
-### 2. Frontend Setup
-
-Navigate into the frontend directory and install its specific packages (ensuring TailwindCSS and all dependencies are fully loaded):
-
-```bash
-cd frontend
-npm install
-cd ..
-
-```
-
-### 3. Backend Setup
-
-1. Navigate into the backend directory:
-```bash
-cd backend
-
-```
-
-
-2. Copy the example environment file to create your active configuration:
-```bash
-cp .env.example .env
-
-```
-
-
-*(On Windows Command Prompt, use `copy .env.example .env`)*
-3. Open the newly created `.env` file and configure the required variables:
-* `GOOGLE_CLIENT_ID`: Your Google Developer Console client ID.
-* `JWT_SECRET`: A secure, random string used to sign backend JWTs.
-* `FRONTEND_URL`: Usually `http://localhost:5173`.
-
-
-4. (Optional) Additional application configurations can be adjusted in `backend/src/main/resources/application.yml`.
-5. Return to the root directory:
-```bash
-cd ..
-
-```
-
-
-
----
-
-## 🚀 Running the Application
-
-You no longer need to open separate terminal windows to launch the frontend and backend manually. The project is pre-configured with `concurrently` to run both stacks simultaneously from the root folder.
-
-Simply run the following command in the **root directory**:
-
-```bash
-npm start
-
-```
-
-* **Frontend Server:** Will be available at `http://localhost:5173/`
-* **Backend Server:** Will be available at `http://localhost:8002/`
-
-> 💡 **Note:** To stop both servers at any time, press `Ctrl + C` in your terminal.
-
----
-
-## 🔑 Authentication Workflow & Behavior
-
-1. **Token Sign-In:** The frontend prompts users to log in via Google, obtains a Google ID token, and sends it to the backend endpoint: `POST http://localhost:8002/api/auth/google`.
-2. **Backend Verification:** The Spring Boot backend securely validates the incoming token using Google's verification API (`https://oauth2.googleapis.com/tokeninfo`).
-3. **Domain Restriction:** The backend checks if `email_verified` is true and **strictly enforces** that the email address belongs to the allowed domain: `@eiu.edu.vn`.
-4. **Session Issuance:** If valid, the backend issues a signed custom JWT (`accessToken`) with a 1-hour expiration time for subsequent authorized requests.
-
----
-
-## 📂 Project Structure Overview
+## 4. Project structure
 
 ```text
-capstone/
-├── package.json             # Root configuration for running parallel scripts
-├── README.md                # Main documentation file
-├── frontend/                # React + Vite Client
-│   ├── src/                 # Application source code
-│   ├── postcss.config.js    # PostCSS & Tailwind styling configurations
-│   └── package.json
-└── backend/                 # Spring Boot Server
-    ├── src/main/            # Java source files & application properties
-    ├── .env                 # Local environment variables (Git ignored)
-    └── pom.xml              # Maven dependencies
-
+EIU-Capstone/
+├── package.json                 # Root scripts to run frontend + backend together
+├── README.md                    # Project documentation
+├── frontend/                    # React + Vite client
+│   ├── package.json             # Frontend dependencies and scripts
+│   ├── index.html               # Vite entry HTML
+│   ├── vite.config.js          # Vite configuration (port 5173)
+│   ├── src/                     # Frontend source code
+│   │   ├── App.jsx              # Main app component
+│   │   ├── main.jsx             # React bootstrap
+│   │   ├── components/          # Reusable UI components
+│   │   ├── context/             # React context providers
+│   │   └── pages/               # Login / dashboard screens
+│   └── tailwind.config.js      # Tailwind configuration
+└── backend/                     # Spring Boot server
+    ├── pom.xml                  # Maven project and dependencies
+    ├── mvnw / mvnw.cmd          # Maven wrapper for Linux/Windows
+    ├── src/main/java/           # Backend Java source code
+    │   ├── controller/          # REST controllers
+    │   ├── service/             # Business logic
+    │   ├── repository/          # Data access layer
+    │   ├── model/               # JPA entities and DTOs
+    │   ├── config/              # Security / CORS / Swagger configs
+    │   └── exception/           # Custom exception handling
+    ├── src/main/resources/     # application.yml, application.properties, DB migration files
+    │   ├── application.yml
+    │   ├── application.properties
+    │   └── db/changelog/        # Liquibase SQL migrations
+    └── .env.example             # Example environment variables for local development
 ```
 
+## 5. Environment configuration
+
+### Backend environment variables
+Create a local backend environment file from the example file.
+
+From the project root in PowerShell:
+
+```powershell
+Copy-Item .\backend\.env.example .\backend\.env
 ```
 
+Then edit the file at `backend/.env` and set values such as:
+
+```env
+GOOGLE_CLIENT_ID=your_google_client_id
+JWT_SECRET=your_long_random_secret
+FRONTEND_URL=http://localhost:5173
+DB_USERNAME=postgres
+DB_PASSWORD=your_postgres_password
 ```
+
+### Database requirement
+The backend is configured to connect to PostgreSQL at:
+- Host: `localhost`
+- Port: `5432`
+- Database: `oop_autograder`
+
+Make sure PostgreSQL is running and the database exists before starting the backend.
+
+## 6. How to run the project
+
+### Option A: Run both frontend and backend together
+From the repository root:
+
+```bash
+npm install
+npm start
+```
+
+This starts:
+- Frontend at `http://localhost:5173/`
+- Backend at `http://localhost:8002/`
+
+### Option B: Run frontend and backend separately
+
+#### Start the frontend only
+```bash
+npm install
+npm run frontend
+```
+
+#### Start the backend only
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+## 7. Ports and URLs
+
+- Frontend dev server: `http://localhost:5173/`
+- Backend API base URL: `http://localhost:8002/`
+- Swagger UI: `http://localhost:8002/swagger-ui/index.html`
+- OpenAPI JSON: `http://localhost:8002/v3/api-docs`
+
+## 8. API overview
+
+The backend exposes REST endpoints under the following base paths:
+- Authentication: `/api/auth`
+- Courses: `/api/courses`
+
+### Example endpoints
+- `POST /api/auth/google` — verifies a Google ID token and returns a JWT
+- `GET /api/courses` — retrieves all courses
+- `GET /api/courses/{id}` — retrieves a single course
+- `POST /api/courses` — creates a new course
+
+## 9. Swagger / OpenAPI
+
+Swagger UI is enabled through Springdoc OpenAPI and is available at:
+
+```text
+http://localhost:8002/swagger-ui/index.html
+```
+
+Use Swagger UI to explore and test the CRUD-style endpoints exposed by the backend.
+
+## 10. Authentication flow
+
+1. The frontend sends a Google ID token to the backend.
+2. The backend validates the token with Google.
+3. The backend checks that the email is verified and belongs to the allowed domain `eiu.edu.vn`.
+4. If valid, the backend returns a signed JWT that the frontend can use for authenticated requests.
+
+## 11. Notes for development
+
+- If you change backend configuration, update `backend/src/main/resources/application.yml` or `backend/.env`.
+- Liquibase migrations are stored in `backend/src/main/resources/db/changelog/`.
+- To stop the running services, press `Ctrl + C` in the terminal.
