@@ -5,7 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '901862485743-on3umlivpedse7hosvjtjqdpqr57s69i.apps.googleusercontent.com';
 import { ThemeProvider } from './context/ThemeContext';
 import Login from './pages/Login';
-import Dashboard from './pages/LecturerDashBoard';
+import LecturerDashboard from './pages/LecturerDashBoard';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
