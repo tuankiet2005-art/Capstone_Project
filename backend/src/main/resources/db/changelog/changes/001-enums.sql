@@ -1,6 +1,8 @@
 --liquibase formatted sql
 
 --changeset backend:001-enums
+--splitStatements:false
+--stripComments:false
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role') THEN
