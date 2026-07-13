@@ -16,7 +16,8 @@ export default function LoginUI({ onLoginSuccess }) {
     }
 
     try {
-      const response = await fetch('http://localhost:8002/api/auth/google', {
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8002';
+      const response = await fetch(`${API_BASE}/api/auth/google`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
